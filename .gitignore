@@ -1,0 +1,13 @@
+.env.local
+.env
+.next
+node_modules
+out
+build
+dist
+*.pem
+.DS_Store
+.env*.local
+
+# clerk configuration (can include secrets)
+/.clerk/

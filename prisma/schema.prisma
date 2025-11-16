@@ -1,0 +1,40 @@
+// prisma/schema.prisma
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String   @id @default(cuid())
+    email     String   @unique
+    clerkId   String   @unique
+    name      String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    movies    Movie[]
+
+    @@index([clerkId])
+}
+
+model Movie {
+    id          String    @id @default(cuid())
+    title       String
+    description String?   @db.Text
+    genre       String
+    rating      Float?    @default(0)
+    releaseDate DateTime?
+    posterUrl   String?
+    director    String?
+    userId      String
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([userId])
+    @@index([genre])
+}
