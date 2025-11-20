@@ -13,7 +13,6 @@ async function fixEnv() {
       envContent = fs.readFileSync(envPath, 'utf8');
     }
 
-    // Check if DB_NAME exists
     if (envContent.includes('DB_NAME=')) {
       envContent = envContent.replace(/DB_NAME=.*/g, 'DB_NAME=movie_booking_system');
     } else {
@@ -29,18 +28,14 @@ async function fixEnv() {
 
 async function initDb() {
   try {
-    // Read SQL file
     const sqlContent = fs.readFileSync(sqlPath, 'utf8');
     
-    // Split into individual statements (rough split by semicolon)
-    // Remove comments and empty lines for better parsing
     const statements = sqlContent
-      .replace(/--.*$/gm, '') // Remove comments
+      .replace(/--.*$/gm, '')
       .split(';')
       .map(stmt => stmt.trim())
       .filter(stmt => stmt.length > 0);
 
-    // Connect to MySQL (without database selected initially to allow CREATE DATABASE)
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
@@ -51,13 +46,9 @@ async function initDb() {
 
     for (const statement of statements) {
       try {
-        // Skip USE statement if we want, or just let it run (it works if DB exists)
         await connection.query(statement);
 
       } catch (err) {
-        // Ignore "Database exists" or similar non-fatal errors if possible, 
-        // but for this script we want to see errors.
-        // However, the SQL script has IF NOT EXISTS, so it should be fine.
         console.error('⚠️ Error executing statement:', statement.substring(0, 50) + '...', err.message);
       }
     }
@@ -71,7 +62,6 @@ async function initDb() {
 
 async function main() {
   await fixEnv();
-  // Reload env after fix
   require('dotenv').config({ override: true });
   await initDb();
 }

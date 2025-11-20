@@ -8,8 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const currentUser = authService.getCurrentUser();
+   const currentUser = authService.getCurrentUser();
     if (currentUser) {
       setUser(currentUser);
     }

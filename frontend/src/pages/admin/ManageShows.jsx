@@ -90,7 +90,6 @@ const ManageShows = () => {
           </div>
         )}
 
-        {/* Show Form Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="card max-w-2xl w-full p-8">
@@ -185,7 +184,6 @@ const ManageShows = () => {
           </div>
         )}
 
-        {/* Shows Table */}
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">

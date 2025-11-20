@@ -15,7 +15,6 @@ const Navbar = () => {
     <nav className="bg-dark-800 border-b border-dark-700 sticky top-0 z-50 backdrop-blur-lg bg-opacity-95">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="text-2xl">🎬</div>
             <span className="text-xl font-bold bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
@@ -23,7 +22,6 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Navigation Links */}
           <div className="flex items-center space-x-6">
             <Link
               to="/"

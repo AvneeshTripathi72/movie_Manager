@@ -8,11 +8,9 @@ const {
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
-// User routes (require authentication)
 router.post('/', auth, createBooking);
 router.get('/my-bookings', auth, getUserBookings);
 
-// Admin routes
 router.get('/', auth, admin, getAllBookings);
 
 module.exports = router;

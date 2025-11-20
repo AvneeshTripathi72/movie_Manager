@@ -85,7 +85,6 @@ const MovieDetails = () => {
 
   return (
     <div className="min-h-screen gradient-bg">
-      {/* Movie Banner */}
       <div className="relative h-96 bg-dark-800">
         <div className="absolute inset-0">
           <img
@@ -136,7 +135,6 @@ const MovieDetails = () => {
         </div>
       </div>
 
-      {/* Showtimes */}
       <div className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold text-white mb-8">Select Showtime</h2>
         

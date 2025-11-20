@@ -9,11 +9,9 @@ const {
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
-// Public routes
-router.get('/:movieId', getShowsByMovie);
-router.get('/detail/:id', getShowById);
+router.get('/movie/:movieId', getShowsByMovie);
+router.get('/:id', getShowById);
 
-// Admin routes
 router.post('/', auth, admin, createShow);
 router.get('/', auth, admin, getAllShows);
 

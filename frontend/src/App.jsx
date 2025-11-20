@@ -4,7 +4,6 @@ import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 
-// User Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -13,7 +12,6 @@ import SeatSelection from './pages/SeatSelection';
 import BookingConfirmation from './pages/BookingConfirmation';
 import MyBookings from './pages/MyBookings';
 
-// Admin Pages
 import Dashboard from './pages/admin/Dashboard';
 import ManageMovies from './pages/admin/ManageMovies';
 import ManageShows from './pages/admin/ManageShows';
@@ -26,13 +24,11 @@ function App() {
         <div className="min-h-screen bg-dark-900">
           <Navbar />
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
 
-            {/* Protected User Routes */}
             <Route
               path="/seat-selection/:showId"
               element={
@@ -58,7 +54,6 @@ function App() {
               }
             />
 
-            {/* Admin Routes */}
             <Route
               path="/admin"
               element={
@@ -92,7 +87,6 @@ function App() {
               }
             />
 
-            {/* Catch all - redirect to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

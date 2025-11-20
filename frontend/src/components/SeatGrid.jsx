@@ -4,7 +4,6 @@ const SeatGrid = ({ totalSeats, bookedSeats, selectedSeats, onSeatClick }) => {
   const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const seatsPerRow = 10;
   
-  // Calculate how many rows we need based on total seats
   const numRows = Math.ceil(totalSeats / seatsPerRow);
   const activeRows = rows.slice(0, numRows);
 
@@ -28,13 +27,11 @@ const SeatGrid = ({ totalSeats, bookedSeats, selectedSeats, onSeatClick }) => {
 
   return (
     <div className="space-y-6">
-      {/* Screen */}
       <div className="mb-8">
         <div className="h-2 bg-gradient-to-r from-transparent via-primary-500 to-transparent rounded-full mb-2"></div>
         <p className="text-center text-gray-400 text-sm">Screen this way</p>
       </div>
 
-      {/* Seat Grid */}
       <div className="flex flex-col items-center space-y-2">
         {activeRows.map((row) => (
           <div key={row} className="flex items-center space-x-2">
@@ -46,7 +43,6 @@ const SeatGrid = ({ totalSeats, bookedSeats, selectedSeats, onSeatClick }) => {
                 const rowIndex = rows.indexOf(row);
                 const totalSeatIndex = rowIndex * seatsPerRow + seatNum;
                 
-                // Don't render seats beyond total capacity
                 if (totalSeatIndex > totalSeats) {
                   return <div key={seatNum} className="w-10 h-10"></div>;
                 }
@@ -68,7 +64,6 @@ const SeatGrid = ({ totalSeats, bookedSeats, selectedSeats, onSeatClick }) => {
         ))}
       </div>
 
-      {/* Legend */}
       <div className="flex justify-center items-center space-x-6 mt-8 pt-6 border-t border-dark-700">
         <div className="flex items-center space-x-2">
           <div className="seat seat-available w-8 h-8"></div>

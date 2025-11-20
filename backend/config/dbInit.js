@@ -2,7 +2,6 @@ const pool = require('./db');
 
 async function initDB() {
   try {
-    // USERS TABLE
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -17,7 +16,6 @@ async function initDB() {
     `);
     console.log("📌 Users table ready");
 
-    // MOVIES TABLE
     await pool.query(`
       CREATE TABLE IF NOT EXISTS movies (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +32,6 @@ async function initDB() {
     `);
     console.log("🎬 Movies table ready");
 
-    // SHOWS TABLE
     await pool.query(`
       CREATE TABLE IF NOT EXISTS shows (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,7 +50,6 @@ async function initDB() {
     `);
     console.log("🎭 Shows table ready");
 
-    // BOOKINGS TABLE
     await pool.query(`
       CREATE TABLE IF NOT EXISTS bookings (
         id INT AUTO_INCREMENT PRIMARY KEY,

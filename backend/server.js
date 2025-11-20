@@ -4,7 +4,6 @@ require('dotenv').config();
 require('./config/db');
 const initDB = require('./config/dbInit');
 
-// Initialize database tables
 initDB();
 
 const app = express();

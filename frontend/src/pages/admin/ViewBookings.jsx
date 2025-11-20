@@ -49,7 +49,6 @@ const ViewBookings = () => {
           </div>
         )}
 
-        {/* Search Bar */}
         <div className="mb-6">
           <input
             type="text"
@@ -60,7 +59,6 @@ const ViewBookings = () => {
           />
         </div>
 
-        {/* Bookings Table */}
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -129,7 +127,6 @@ const ViewBookings = () => {
           )}
         </div>
 
-        {/* Summary */}
         {bookings.length > 0 && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="card p-4">

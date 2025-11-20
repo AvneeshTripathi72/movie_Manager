@@ -44,7 +44,6 @@ const Home = () => {
   return (
     <div className="min-h-screen gradient-bg">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-4 text-shadow">
             Now Showing
@@ -52,7 +51,6 @@ const Home = () => {
           <p className="text-gray-400">Book your favorite movies now!</p>
         </div>
 
-        {/* Search Bar */}
         <div className="mb-8">
           <input
             type="text"
@@ -63,14 +61,12 @@ const Home = () => {
           />
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
 
-        {/* Movies Grid */}
         {filteredMovies.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in">
             {filteredMovies.map((movie) => (

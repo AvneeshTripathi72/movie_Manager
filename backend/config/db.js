@@ -3,7 +3,6 @@ require('dotenv').config();
 
 (async () => {
   try {
-    // 1️⃣ Connect WITHOUT database (important)
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
@@ -11,7 +10,6 @@ require('dotenv').config();
       port: process.env.DB_PORT || 3306
     });
 
-    // 2️⃣ Auto-create database if not exist
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\`;`);
     console.log(`📦 Database '${process.env.DB_NAME}' is ready`);
 
@@ -22,7 +20,6 @@ require('dotenv').config();
   }
 })();
 
-// 3️⃣ Create pool WITH database
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',

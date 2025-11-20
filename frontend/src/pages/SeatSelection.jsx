@@ -25,13 +25,10 @@ const SeatSelection = () => {
       const response = await showService.getShowById(showId);
       setShow(response.data);
       
-      // For demo purposes, we'll simulate some booked seats
-      // In a real app, this would come from the backend
       const totalSeats = response.data.total_seats;
       const availableSeats = response.data.available_seats;
       const bookedCount = totalSeats - availableSeats;
       
-      // Generate some random booked seats for demo
       const booked = [];
       const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
       for (let i = 0; i < bookedCount; i++) {
@@ -112,7 +109,6 @@ const SeatSelection = () => {
   return (
     <div className="min-h-screen gradient-bg py-8">
       <div className="container mx-auto px-4">
-        {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate(`/movie/${show.movie_id}`)}
@@ -152,7 +148,6 @@ const SeatSelection = () => {
           </div>
         </div>
 
-        {/* Seat Selection */}
         <div className="card p-8 mb-8">
           <h2 className="text-xl font-bold text-white mb-6 text-center">Select Your Seats</h2>
           
@@ -164,7 +159,6 @@ const SeatSelection = () => {
           />
         </div>
 
-        {/* Booking Summary */}
         <div className="card p-6">
           {error && (
             <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded-lg mb-4">
