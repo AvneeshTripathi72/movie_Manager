@@ -1,87 +1,63 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService.js';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { authService } from '../services/authService';
 
-export const AuthContext = createContext();
-
-const TOKEN_KEY = 'accessToken';
-const REFRESH_KEY = 'refreshToken';
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = window.localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      setLoading(false);
-      return;
+    // Check if user is logged in on mount
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
     }
-
-    authService
-      .getCurrentUser()
-      .then((response) => {
-        setUser(response.data.data);
-      })
-      .catch(() => {
-        window.localStorage.removeItem(TOKEN_KEY);
-        window.localStorage.removeItem(REFRESH_KEY);
-      })
-      .finally(() => setLoading(false));
+    setLoading(false);
   }, []);
 
-  const login = async (credentials, options = {}) => {
-    try {
-      const response = await authService.login(credentials);
-      const { accessToken, refreshToken, user: profile } = response.data.data;
-      window.localStorage.setItem(TOKEN_KEY, accessToken);
-      window.localStorage.setItem(REFRESH_KEY, refreshToken);
-      setUser(profile);
-      toast.success('Welcome back!');
-      navigate(options.redirectTo ?? '/movies', { replace: true });
-    } catch (error) {
-      const message = error.response?.data?.message || 'Login failed. Please try again.';
-      toast.error(message);
-      throw error;
+  const login = async (credentials) => {
+    const response = await authService.login(credentials);
+    if (response.success) {
+      setUser(response.data.user);
     }
+    return response;
   };
 
-  const register = async (payload, options = {}) => {
-    try {
-      const response = await authService.register(payload);
-      const { accessToken, refreshToken, user: profile } = response.data.data;
-      window.localStorage.setItem(TOKEN_KEY, accessToken);
-      window.localStorage.setItem(REFRESH_KEY, refreshToken);
-      setUser(profile);
-      toast.success('Account created successfully');
-      navigate(options.redirectTo ?? '/movies', { replace: true });
-    } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed.';
-      toast.error(message);
-      throw error;
+  const register = async (userData) => {
+    const response = await authService.register(userData);
+    if (response.success) {
+      setUser(response.data.user);
     }
+    return response;
   };
 
   const logout = () => {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.removeItem(REFRESH_KEY);
+    authService.logout();
     setUser(null);
-    toast.success('Logged out');
   };
 
-  const value = useMemo(
-    () => ({
-      user,
-      loading,
-      login,
-      register,
-      logout,
-      setUser,
-    }),
-    [user, loading]
-  );
+  const isAdmin = () => {
+    return user?.role === 'admin';
+  };
+
+  const value = {
+    user,
+    login,
+    register,
+    logout,
+    isAdmin,
+    isAuthenticated: !!user,
+    loading
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

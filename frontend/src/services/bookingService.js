@@ -1,9 +1,18 @@
-import { api } from './api.js';
+import api from './api';
 
 export const bookingService = {
-  reserveSeats: (payload) => api.post('/bookings/reserve', payload),
-  confirmBooking: (payload) => api.post('/bookings/confirm', payload),
-  getMyBookings: (params) => api.get('/bookings', { params }),
-  getBookingById: (id) => api.get(`/bookings/${id}`),
-  cancelBooking: (id) => api.delete(`/bookings/${id}`),
+  createBooking: async (bookingData) => {
+    const response = await api.post('/bookings', bookingData);
+    return response.data;
+  },
+
+  getUserBookings: async () => {
+    const response = await api.get('/bookings/my-bookings');
+    return response.data;
+  },
+
+  getAllBookings: async () => {
+    const response = await api.get('/bookings');
+    return response.data;
+  }
 };

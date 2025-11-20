@@ -1,561 +1,420 @@
-# 🎬 Movie Booking System - Complete Full-Stack Project
+# 🎬 Movie Booking System
 
-A production-ready full-stack movie booking application with a React frontend and Node.js backend.
+A complete, production-ready Movie Booking System built with React (frontend), Express (backend), and MySQL (database). This system supports user authentication, movie browsing, seat selection, booking management, and a comprehensive admin dashboard.
 
-## 📦 Project Overview
+## 📋 Table of Contents
 
-```
-movie_rec/
-├── backend/                 # Node.js + Express + MongoDB API
-├── frontend/                # React + Vite SPA
-├── FRONTEND_BACKEND_INTEGRATION.md
-└── README.md (this file)
-```
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Database Setup](#database-setup)
+- [Running the Application](#running-the-application)
+- [API Documentation](#api-documentation)
+- [Project Structure](#project-structure)
+- [Default Credentials](#default-credentials)
+- [Screenshots](#screenshots)
 
 ## ✨ Features
 
-### 🎬 Movie Features
-
-- Browse available movies with advanced filtering
-- Search movies by title, genre, language
-- View detailed movie information
-- Movie ratings and reviews
-
-### 🏛️ Theatre Features
-
-- Browse theatres by city
-- View theatre amenities
-- Check available screens
-- Parking and food information
-
-### 🎫 Booking Features
-
-- View available shows for movies
-- Real-time seat availability
-- Interactive seat map
-- 10-minute reservation hold
-- Secure payment processing
-- Booking confirmation
-
-### 👤 User Features
-
-- User registration and login
-- JWT authentication
-- View booking history
-- Cancel bookings
-- Manage profile
-
-### 👨‍💼 Admin Features
-
-- Manage movies (CRUD)
-- Manage theatres (CRUD)
-- Manage shows (CRUD)
-- View all bookings
-- Sales reports
-- Top movies analytics
-
-## 🚀 Quick Start
-
-### Option 1: Run Backend Only
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-npm run dev
-```
-
-Backend: http://localhost:3000
-API Docs: http://localhost:3000/docs
-
-### Option 2: Run Frontend Only
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-Frontend: http://localhost:3000 (or 5173 for Vite)
-
-### Option 3: Run Both (Recommended)
-
-**Terminal 1 - Backend:**
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-npm run dev
-```
-
-**Terminal 2 - Frontend:**
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-**Access the app:**
-
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:3000/api
-- Health Check: http://localhost:3000/health
-
-## 📚 Documentation
-
-### Backend Documentation
-
-- **[Backend README](./backend/README.md)** - Complete backend overview
-- **[Backend Setup Guide](./backend/BACKEND_SETUP.md)** - Installation and configuration
-- **[API Documentation](./backend/docs/API_DOCUMENTATION.md)** - All endpoints with examples
-- **[Implementation Complete](./backend/IMPLEMENTATION_COMPLETE.md)** - What was built
-
-### Frontend Documentation
-
-- **[Frontend README](./frontend/README.md)** - Frontend overview and features
-- **[Frontend Setup Guide](./frontend/SETUP_GUIDE.md)** - Installation and setup
-
-### Integration Documentation
-
-- **[Frontend-Backend Integration](./FRONTEND_BACKEND_INTEGRATION.md)** - How they communicate
-
-## 🔌 API Endpoints (39 Total)
-
-### Authentication (3)
-
-```
-POST   /api/auth/register      Register new user
-POST   /api/auth/login         User login
-GET    /api/auth/me            Get current user (Protected)
-```
-
-### Movies (5)
-
-```
-GET    /api/movies             Get all movies (with filters)
-GET    /api/movies/:id         Get movie details
-POST   /api/movies             Create movie (Admin)
-PATCH  /api/movies/:id         Update movie (Admin)
-DELETE /api/movies/:id         Delete movie (Admin)
-```
-
-### Theatres (5)
-
-```
-GET    /api/theatres           Get all theatres
-GET    /api/theatres/:id       Get theatre details
-POST   /api/theatres           Create theatre (Admin)
-PATCH  /api/theatres/:id       Update theatre (Admin)
-DELETE /api/theatres/:id       Delete theatre (Admin)
-```
-
-### Screens (5)
-
-```
-GET    /api/screens            Get all screens
-GET    /api/screens/:id        Get screen details
-POST   /api/screens            Create screen (Admin)
-PATCH  /api/screens/:id        Update screen (Admin)
-DELETE /api/screens/:id        Delete screen (Admin)
-```
-
-### Shows (6)
-
-```
-GET    /api/shows              Get all shows
-GET    /api/shows/:id          Get show details
-GET    /api/shows/:id/seats    Get available seats
-POST   /api/shows              Create show (Admin)
-PATCH  /api/shows/:id          Update show (Admin)
-DELETE /api/shows/:id          Delete show (Admin)
-```
-
-### Bookings (5)
-
-```
-POST   /api/bookings/reserve   Reserve seats
-POST   /api/bookings/confirm   Confirm booking
-GET    /api/bookings           Get user bookings (Protected)
-GET    /api/bookings/:id       Get booking details (Protected)
-DELETE /api/bookings/:id       Cancel booking (Protected)
-```
-
-### Admin (5)
-
-```
-GET    /api/admin/bookings              Get all bookings (Admin)
-POST   /api/admin/bookings/confirm      Confirm booking (Admin)
-POST   /api/admin/bookings/cancel       Cancel booking (Admin)
-GET    /api/admin/reports/sales         Sales report (Admin)
-GET    /api/admin/reports/top-movies    Top movies report (Admin)
-```
-
-## 🏗️ Architecture
-
-### Backend Stack
-
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB + Mongoose
-- **Authentication:** JWT (Access & Refresh tokens)
-- **Validation:** Joi
-- **Security:** Helmet, CORS, Rate Limiting, bcryptjs
-- **Testing:** Jest + Supertest
-
-### Frontend Stack
-
-- **Framework:** React 18
-- **Build Tool:** Vite
-- **Routing:** React Router v6
-- **HTTP Client:** Axios
-- **State Management:** Context API + Hooks
-- **Styling:** Tailwind CSS
-- **UI Components:** Custom components + React Icons
-- **Forms:** Custom forms with validation
-- **Notifications:** React Hot Toast
-
-## 📊 Database Models
-
-```
-User
-├── name, email, password (hashed)
-├── role (user/admin)
-├── phone, isActive
-└── timestamps
-
-Movie
-├── title, description, genre[], language[]
-├── duration, releaseDate, director, cast[]
-├── rating, posterUrl, trailerUrl
-└── indexes: title (text), genre, releaseDate
-
-Theatre
-├── name, city, address, phone, email
-├── screens (array of Screen IDs)
-├── amenities[], isParkingAvailable, isFood
-└── indexes: city, name (text)
-
-Screen
-├── screenNumber, theatreId
-├── capacity, layout (rows × columns)
-├── facilities[]
-└── indexes: theatreId
-
-Show
-├── movieId, theatreId, screenId
-├── dateTime, format (2D/3D/IMAX), language
-├── seatPrice, totalSeats
-├── bookedSeats[], availableSeats
-└── indexes: movieId, theatreId, dateTime, compound
-
-Booking
-├── userId, showId, seats[]
-├── status (pending/confirmed/cancelled)
-├── email, phone, totalPrice
-├── paymentMethod, expiresAt
-└── indexes: userId, showId, status, TTL
-```
-
-## 🔐 Security Features
-
-✅ JWT Authentication with refresh tokens
-✅ Password hashing with bcryptjs
-✅ Role-based authorization
-✅ Input validation with Joi
-✅ CORS protection
-✅ Helmet security headers
-✅ Rate limiting (100 req/15min, 5 auth/15min)
-✅ MongoDB injection prevention
-✅ Global error handling
-✅ Secure token storage in localStorage
-✅ HTTPS recommended for production
-
-## 🧪 Testing
-
-### Backend Tests
-
-```bash
-cd backend
-npm test                    # Run all tests
-npm run test:watch         # Watch mode
-```
-
-Test coverage includes:
-
-- Authentication (register, login, getCurrentUser)
-- Movies CRUD operations
-- Bookings operations
-
-### Frontend Tests
-
-Manual testing currently. Add Jest + React Testing Library for automated tests.
-
-## 📈 Performance Optimizations
-
-- Database indexes on frequently queried fields
-- Pagination on list endpoints
-- Lazy loading of images
-- Caching of API responses
-- Rate limiting to prevent abuse
-- Connection pooling for database
-
-## 🚀 Deployment
-
-### Backend Deployment
-
-Supports: Heroku, Railway, Vercel, AWS, DigitalOcean, Azure
-
-**Requirements:**
-
-- Node.js v14+
-- MongoDB database
-- Environment variables configured
-
-**Steps:**
-
-1. Push code to GitHub
-2. Connect to deployment platform
-3. Set environment variables
-4. Deploy
-
-### Frontend Deployment
-
-Supports: Vercel, Netlify, AWS S3, DigitalOcean
-
-**Requirements:**
-
-- Build command: `npm run build`
-- Build output: `dist/` folder
-- Environment variables
-
-## 📝 Environment Variables
-
-### Backend (.env)
-
-```env
-MONGODB_URI=mongodb://localhost:27017/movie_booking
-JWT_SECRET=your-secret-key-here
-PORT=3000
-NODE_ENV=development
-CORS_ORIGIN=http://localhost:3000,http://localhost:5173
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-```
-
-### Frontend (.env.local)
-
-```env
-REACT_APP_API_URL=http://localhost:3000/api
-REACT_APP_ENV=development
-```
-
-## 🔄 Workflow
-
-### New User Journey
-
-1. Visit app → Home page
-2. Click "Register" → Enter details
-3. Backend creates account, returns JWT token
-4. Frontend stores token, redirects to Movies
-5. Browse movies and book tickets
-
-### Booking Journey
-
-1. Select movie → View shows
-2. Pick show → View seats
-3. Select seats → Reserve (10-min hold)
-4. Enter contact → Confirm booking
-5. Payment processing → Confirmation
-6. View ticket in "My Bookings"
-
-### Admin Journey
-
-1. Login as admin
-2. Navigate to Admin Dashboard
-3. Manage movies/theatres/shows
-4. View bookings and reports
-5. Analytics and revenue tracking
-
-## 📊 File Statistics
-
-### Backend
-
-- **Total Files:** 38
-- **Controllers:** 7
-- **Models:** 6
-- **Routes:** 7
-- **Middleware:** 3
-- **Services:** 2
-- **Utilities:** 2
-- **Tests:** 3
-- **Lines of Code:** 3000+
+### User Features
+- 🔐 User registration and login with JWT authentication
+- 🎬 Browse movies with search functionality
+- 📝 View detailed movie information
+- 🎭 Select showtimes and book seats
+- 💺 Interactive seat selection with real-time availability
+- 🎫 View booking history
+- ✅ Booking confirmation with unique booking ID
+
+### Admin Features
+- 📊 Admin dashboard with statistics
+- ➕ Add, edit, and delete movies
+- 🎪 Create and manage showtimes
+- 👥 View all bookings and revenue analytics
+- 🔒 Role-based access control
+
+### Technical Features
+- 🚫 Double-booking prevention using database transactions
+- 🔑 JWT-based authentication
+- 🎨 Modern, responsive UI with TailwindCSS
+- ⚡ Fast and optimized with Vite
+- 🛡️ Password hashing with bcrypt
+- 📱 Mobile-friendly design
+
+## 🛠️ Technology Stack
 
 ### Frontend
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **TailwindCSS** - Utility-first CSS framework
 
-- **Total Files:** 30+
-- **Pages:** 8
-- **Components:** 7
-- **Services:** 1 (with multiple functions)
-- **Contexts:** 1
-- **Hooks:** 3
-- **Utils:** 3
-- **Lines of Code:** 2000+
+### Backend
+- **Node.js** - Runtime environment
+- **Express** - Web framework
+- **MySQL** - Relational database
+- **JWT** - Authentication
+- **bcryptjs** - Password hashing
 
-## 🎯 Current Status
+## 📦 Prerequisites
 
-✅ **Backend:** Production Ready
+Before you begin, ensure you have the following installed:
 
-- All 39 endpoints implemented
-- Full documentation complete
-- Security features implemented
-- Tests included
-- Error handling comprehensive
+- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
+- **MySQL** (v8 or higher) - [Download](https://dev.mysql.com/downloads/mysql/)
+- **MySQL Workbench** (optional but recommended) - [Download](https://dev.mysql.com/downloads/workbench/)
+- **npm** or **yarn** package manager
 
-✅ **Frontend:** Production Ready
+## 🚀 Installation
 
-- All pages implemented
-- Responsive design
-- State management working
-- API integration complete
-- Form validation working
-
-✅ **Integration:** Complete
-
-- Frontend-Backend communication working
-- Authentication flow verified
-- Error handling in place
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
-## 🐛 Known Issues
-
-None currently identified. All features working as expected.
-
-## 📄 License
-
-MIT License - Free for personal and commercial use
-
-## 👨‍💻 Author
-
-Movie Booking Team
-
-## 🆘 Troubleshooting
-
-### Backend won't start
-
-- Check MongoDB is running
-- Check port 3000 is available
-- Check .env file is configured
-
-### Frontend won't connect to backend
-
-- Check backend is running on port 3000
-- Check CORS_ORIGIN in backend .env
-- Check API URL in frontend .env
-
-### Booking not working
-
-- Check seats are available
-- Check 10-minute reservation timer
-- Check payment simulation (90% success rate)
-
-### Login not working
-
-- Check credentials are correct
-- Check JWT_SECRET in backend .env
-- Check browser localStorage
-
-## 📞 Support
-
-For issues or questions:
-
-1. Check relevant README.md file
-2. Review API documentation
-3. Check test files for examples
-4. Review error messages and logs
-
-## 🎓 Learning Resources
-
-- [Express.js Documentation](https://expressjs.com)
-- [MongoDB Documentation](https://docs.mongodb.com)
-- [React Documentation](https://react.dev)
-- [Mongoose ODM](https://mongoosejs.com)
-- [JWT Authentication](https://jwt.io)
-
-## ✅ Checklist for Production
-
-- [ ] Update .env variables
-- [ ] Change JWT_SECRET to random string
-- [ ] Enable HTTPS
-- [ ] Set NODE_ENV=production
-- [ ] Configure MongoDB Atlas
-- [ ] Set up proper logging
-- [ ] Add error monitoring (Sentry)
-- [ ] Set up CI/CD pipeline
-- [ ] Run security audit
-- [ ] Performance testing
-- [ ] Load testing
-- [ ] Backup strategy
-
-## 🎯 Future Enhancements
-
-- [ ] Payment gateway integration (Stripe/PayPal)
-- [ ] Email notifications
-- [ ] SMS alerts
-- [ ] Seat selection UI improvements
-- [ ] Mobile app (React Native)
-- [ ] Advanced analytics
-- [ ] Recommendation engine
-- [ ] Review and rating system
-- [ ] Multi-language support
-- [ ] Dark mode
-
----
-
-## 📊 Quick Reference
-
-| Component | Technology     | Port  | Status      |
-| --------- | -------------- | ----- | ----------- |
-| Frontend  | React + Vite   | 3000  | ✅ Ready    |
-| Backend   | Express        | 3000  | ✅ Ready    |
-| Database  | MongoDB        | 27017 | ✅ Ready    |
-| API Docs  | Auto-generated | -     | ✅ Complete |
-
----
-
-**Project Status:** ✅ **PRODUCTION READY**
-
-**All Features:** ✅ Implemented
-**Documentation:** ✅ Complete
-**Testing:** ✅ Included
-**Security:** ✅ Implemented
-**Performance:** ✅ Optimized
-**Deployment:** ✅ Ready
-
----
-
-## 🚀 Get Started Now
+### 1. Clone or Navigate to Project Directory
 
 ```bash
-# Clone/Download project
-cd movie_rec
-
-# Terminal 1: Start Backend
-cd backend && npm install && npm run dev
-
-# Terminal 2: Start Frontend
-cd frontend && npm install && npm start
-
-# Open http://localhost:3000 in browser
-# Start booking movies!
+cd c:\Users\avani\Desktop\movie_rec
 ```
 
-**Happy Coding! 🎉**
+### 2. Install Backend Dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### 3. Install Frontend Dependencies
+
+```bash
+cd ../frontend
+npm install
+```
+
+## 🗄️ Database Setup
+
+### Step 1: Create Database
+
+1. Open MySQL Workbench or MySQL command line
+2. Run the SQL script located at `database/database.sql`
+
+**Using MySQL Workbench:**
+- Open MySQL Workbench
+- Connect to your MySQL server
+- File → Open SQL Script → Select `database/database.sql`
+- Execute the script (⚡ icon or Ctrl+Shift+Enter)
+
+**Using Command Line:**
+```bash
+mysql -u root -p < database/database.sql
+```
+
+### Step 2: Configure Backend Environment
+
+1. Navigate to the backend folder
+2. Open `.env` file
+3. Update the following variables with your MySQL credentials:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=movie_booking_system
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+PORT=5000
+```
+
+**Important:** Replace `your_mysql_password` with your actual MySQL password.
+
+## ▶️ Running the Application
+
+### Start Backend Server
+
+```bash
+cd backend
+npm start
+```
+
+The backend server will start on `http://localhost:5000`
+
+For development with auto-reload:
+```bash
+npm run dev
+```
+
+### Start Frontend Development Server
+
+Open a new terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+The frontend will start on `http://localhost:3000` and automatically open in your browser.
+
+## 🌐 API Documentation
+
+### Base URL
+```
+http://localhost:5000/api
+```
+
+### Authentication Endpoints
+
+#### Register User
+```http
+POST /auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+#### Login
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+### Movie Endpoints
+
+#### Get All Movies
+```http
+GET /movies
+```
+
+#### Get Movie by ID
+```http
+GET /movies/:id
+```
+
+#### Create Movie (Admin Only)
+```http
+POST /movies
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "title": "Movie Title",
+  "description": "Movie description",
+  "duration": 120,
+  "language": "English",
+  "poster_url": "https://example.com/poster.jpg",
+  "release_date": "2024-01-01"
+}
+```
+
+#### Update Movie (Admin Only)
+```http
+PUT /movies/:id
+Authorization: Bearer {token}
+```
+
+#### Delete Movie (Admin Only)
+```http
+DELETE /movies/:id
+Authorization: Bearer {token}
+```
+
+### Show Endpoints
+
+#### Get Shows by Movie
+```http
+GET /shows/:movieId
+```
+
+#### Get Show Details
+```http
+GET /shows/detail/:id
+```
+
+#### Create Show (Admin Only)
+```http
+POST /shows
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "movie_id": 1,
+  "show_date": "2024-01-15",
+  "show_time": "18:00:00",
+  "price": 250.00,
+  "total_seats": 100
+}
+```
+
+### Booking Endpoints
+
+#### Create Booking
+```http
+POST /bookings
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "show_id": 1,
+  "seats": ["A1", "A2", "A3"]
+}
+```
+
+#### Get User Bookings
+```http
+GET /bookings/my-bookings
+Authorization: Bearer {token}
+```
+
+#### Get All Bookings (Admin Only)
+```http
+GET /bookings
+Authorization: Bearer {token}
+```
+
+## 📁 Project Structure
+
+```
+movie_rec/
+├── backend/
+│   ├── config/
+│   │   └── db.js                 # MySQL connection
+│   ├── controllers/
+│   │   ├── authController.js     # Authentication logic
+│   │   ├── movieController.js    # Movie CRUD
+│   │   ├── showController.js     # Show management
+│   │   └── bookingController.js  # Booking logic
+│   ├── middleware/
+│   │   ├── auth.js               # JWT verification
+│   │   └── admin.js              # Admin check
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── movieRoutes.js
+│   │   ├── showRoutes.js
+│   │   └── bookingRoutes.js
+│   ├── utils/
+│   │   └── generateBookingId.js
+│   ├── .env                      # Environment variables
+│   ├── server.js                 # Express app
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── MovieCard.jsx
+│   │   │   ├── SeatGrid.jsx
+│   │   │   └── PrivateRoute.jsx
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   ├── MovieDetails.jsx
+│   │   │   ├── SeatSelection.jsx
+│   │   │   ├── BookingConfirmation.jsx
+│   │   │   ├── MyBookings.jsx
+│   │   │   └── admin/
+│   │   │       ├── Dashboard.jsx
+│   │   │       ├── ManageMovies.jsx
+│   │   │       ├── ManageShows.jsx
+│   │   │       └── ViewBookings.jsx
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── authService.js
+│   │   │   ├── movieService.js
+│   │   │   ├── showService.js
+│   │   │   └── bookingService.js
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   └── package.json
+└── database/
+    └── database.sql              # Database schema & seed data
+```
+
+## 🔑 Default Credentials
+
+### Admin Account
+- **Email:** admin@moviebooking.com
+- **Password:** admin123
+
+### Test User Accounts
+- **Email:** john@example.com
+- **Password:** user123
+
+- **Email:** jane@example.com
+- **Password:** user123
+
+**Note:** The passwords in the database are hashed. For testing, you'll need to update the hashed passwords in the SQL file or create new accounts through the registration page.
+
+## 🎨 Features Walkthrough
+
+### User Flow
+1. **Browse Movies** - View all available movies on the home page
+2. **Select Movie** - Click on a movie to view details and available showtimes
+3. **Choose Showtime** - Select your preferred date and time
+4. **Select Seats** - Interactive seat selection with real-time availability
+5. **Confirm Booking** - Review and confirm your booking
+6. **View Tickets** - Access your booking history anytime
+
+### Admin Flow
+1. **Login as Admin** - Use admin credentials
+2. **Dashboard** - View statistics and quick actions
+3. **Manage Movies** - Add, edit, or delete movies
+4. **Manage Shows** - Create showtimes for movies
+5. **View Bookings** - Monitor all bookings and revenue
+
+## 🔧 Troubleshooting
+
+### Backend Issues
+
+**MySQL Connection Error:**
+- Verify MySQL is running
+- Check credentials in `.env` file
+- Ensure database exists
+
+**Port Already in Use:**
+- Change PORT in `.env` file
+- Kill process using port 5000
+
+### Frontend Issues
+
+**API Connection Error:**
+- Ensure backend is running on port 5000
+- Check CORS settings in backend
+
+**Build Errors:**
+- Delete `node_modules` and run `npm install` again
+- Clear npm cache: `npm cache clean --force`
+
+## 📝 License
+
+This project is created for educational purposes.
+
+## 👨‍💻 Support
+
+For issues or questions, please check:
+- Backend logs in terminal
+- Browser console for frontend errors
+- MySQL error logs
+
+## 🚀 Future Enhancements
+
+- Payment gateway integration
+- Email notifications
+- QR code for tickets
+- Movie reviews and ratings
+- Advanced seat layouts
+- Multiple cinema locations
+- Promotional offers and discounts
+
+---
+
+**Built with ❤️ using React, Express, and MySQL**

@@ -1,49 +1,90 @@
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import MovieCard from '../components/MovieCard';
+import { movieService } from '../services/movieService';
 
 const Home = () => {
-  return (
-    <div className="container">
-      <section className="hero">
-        <h1>Experience Cinema The Easy Way</h1>
-        <p>
-          Discover movies, pick your favourite seats, and confirm tickets in minutes. Manage every
-          booking from a single dashboard.
-        </p>
-        <div className="hero-actions">
-          <Link to="/movies" className="primary-btn">
-            Browse Movies
-          </Link>
-          <Link to="/register" className="secondary-btn">
-            Create Account
-          </Link>
-        </div>
-      </section>
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-      <section className="features">
-        <div className="container feature-grid">
-          <article className="feature-card">
-            <h3>Smart Seat Selection</h3>
-            <p>
-              Visual seat map lets you choose the best view. Real-time availability ensures no double
-              booking surprises.
-            </p>
-          </article>
-          <article className="feature-card">
-            <h3>Instant Confirmations</h3>
-            <p>
-              Reserve seats with one click and confirm when you are ready. Automated reminders keep you
-              on schedule.
-            </p>
-          </article>
-          <article className="feature-card">
-            <h3>Unified Dashboard</h3>
-            <p>
-              Track upcoming shows, download tickets, and manage cancellations from a clean, organized
-              interface.
-            </p>
-          </article>
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      const response = await movieService.getAllMovies();
+      setMovies(response.data);
+    } catch (err) {
+      setError('Failed to load movies');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    movie.language.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading movies...</p>
         </div>
-      </section>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen gradient-bg">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4 text-shadow">
+            Now Showing
+          </h1>
+          <p className="text-gray-400">Book your favorite movies now!</p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-8">
+          <input
+            type="text"
+            placeholder="Search movies by title or language..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="input-field max-w-md"
+          />
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
+
+        {/* Movies Grid */}
+        {filteredMovies.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in">
+            {filteredMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-400 text-lg">
+              {searchTerm ? 'No movies found matching your search' : 'No movies available'}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
